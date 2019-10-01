@@ -17,11 +17,11 @@ public class Armory {
     
     public List getHeadArmorArrayList() {
        // Armor ArmorName = new Armor(ItemID, ItemName, ItemDef, ItemEva)
-       Armor IronHelmet = new Armor(genID(), "Iron Helmet", 5, -3);
-       Armor LeatherCap = new Armor(genID(), "Leather Cap", 2, 3);
-       Armor GrBerret = new Armor(genID(), "Green Berret", 1, 5);
-       Armor SilverHelmet = new Armor(genID(), "Silver Helmet", 4, 3);
-
+        //Head_Armor
+        Armor IronHelmet = new Armor(genID(), "Iron Helmet", 5, 0);
+        Armor LeatherCap = new Armor(genID(), "Leather Cap", 2, 3);
+        Armor GrBerret = new Armor(genID(), "Green Berret", 1, 5);
+        Armor SilverHelmet = new Armor(genID(), "Silver Helmet", 4, 3);
        //ObjectArray
         List ArmorArrayList = new ArrayList();
         ArmorArrayList.add(IronHelmet);
@@ -36,7 +36,18 @@ public class Armory {
         return ArmorArrayList;
     }
 
-    
+    public List getChestArmorArrayList() {
+        Armor IronChestPlate = new Armor(genID(), "Iron Chestplate", 15, 0);
+        Armor BronzeShoulder = new Armor(genID(), "Bronze Shoulder Pad", 8, 2);
+        Armor LeatherJacket = new Armor(genID(), "LeatherJacket", 5, 3);
+        List ArmorArrayList = new ArrayList();
+        ArmorArrayList.add(IronChestPlate);
+        ArmorArrayList.add(BronzeShoulder);
+        ArmorArrayList.add(LeatherJacket);
+        return ArmorArrayList;
+    }
+
+
 
     public long genID() {
         this.genIDcount++;

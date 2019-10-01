@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 public class Customize {
     
+    double test;
     double AP;
     double DEF;
     double EVA;
@@ -13,11 +14,17 @@ public class Customize {
     
     Scanner scn;
     Armory TheArmory;
-    String[] HeadNameArray = new String[5];
-    double[] HeadDefArray = new double[5];
-    double[] HeadEvaArray = new double[5];
-    
+    //Head Array
     List HeadList;
+    String[] HeadNameArray;
+    double[] HeadDefArray;
+    double[] HeadEvaArray;
+    //Chest Array
+    List ChestList;
+    String[] ChestNameArray;
+    double[] ChestDefArray;
+    double[] ChestEvaArray;
+    
 
     String slot_Head;
     String slot_Chest;
@@ -27,19 +34,22 @@ public class Customize {
     public Customize() {
         scn = new Scanner(System.in);
         TheArmory = new Armory();
+        selectHeadArmor();
+        selectChestArmor();
     }
 
-    public void selectAllArmor() {
-        selectHeadArmor();
-    }
+   // public void selectAllArmor() {
+   //     selectHeadArmor();
+   //     selectChestArmor();
+   // }
 
     private void selectHeadArmor() {
-        int maxValidIndex = 0;
+        //int maxValidIndex = 0;
         System.out.println("[Choose Your Helmet]");
         fetchHead();
         StringBuilder SelectHeadOutput = new StringBuilder();
-        for (int i = 0; HeadNameArray[i] != null ; i++) {maxValidIndex++; };
-        for (int i = 0; i<maxValidIndex ; i++) {
+       // for (int i = 0; HeadNameArray[i] != null ; i++) {maxValidIndex++; };
+        for (int i = 0; i<HeadList.size() ; i++) {
                 int n = i;
                 n++;
                 SelectHeadOutput.append("[").append(n).append("]");
@@ -51,10 +61,35 @@ public class Customize {
             int armorIndex = scn.nextInt();
             armorIndex--;
             //ValidCheck
-            if (!isIndexValid(maxValidIndex,0 , armorIndex)){return;}
+            if (!isIndexValid(HeadList.size(),0 , armorIndex)){return;}
             System.out.println("You Have Chosen "+HeadNameArray[armorIndex]+"!");
-            this.DEF += HeadDefArray[armorIndex];
-            this.EVA += HeadEvaArray[armorIndex];      
+            DEF += HeadDefArray[armorIndex];
+            EVA += HeadEvaArray[armorIndex];      
+            test++;
+            showStat(); 
+    }
+
+    private void selectChestArmor() {
+        System.out.println("[Choose Your ChestArmor]");
+        fetchChest();
+        StringBuilder SelectChestOutput = new StringBuilder();
+        for (int i = 0; i<ChestList.size() ; i++) {
+                int n = i;
+                n++;
+                SelectChestOutput.append("[").append(n).append("]");
+                SelectChestOutput.append(ChestNameArray[i]);
+                SelectChestOutput.append("(def:").append(ChestDefArray[i]).append(" eva:").append(ChestEvaArray[i]).append(")\n");    
+        }
+        System.out.println(SelectChestOutput);
+        //User select HeadArmor;
+            int armorIndex = scn.nextInt();
+            armorIndex--;
+            //ValidCheck
+            if (!isIndexValid(ChestList.size(),0 , armorIndex)){return;}
+            System.out.println("You Have Chosen "+ChestNameArray[armorIndex]+"!");
+            DEF += ChestDefArray[armorIndex];
+            EVA += ChestEvaArray[armorIndex];      
+            test++;
             showStat(); 
     }
 
@@ -66,6 +101,9 @@ public class Customize {
 
     public void fetchHead() {
         HeadList = TheArmory.getHeadArmorArrayList();
+        HeadNameArray = new String[HeadList.size()];
+        HeadDefArray = new double[HeadList.size()];
+        HeadEvaArray = new double[HeadList.size()];
         for (int i = 0; i < HeadList.size(); i++) {
             Armor selectedArmor = (Armor) HeadList.get(i);
             HeadNameArray[i] = selectedArmor.getName();
@@ -73,10 +111,24 @@ public class Customize {
             HeadEvaArray[i] = selectedArmor.getEva();
         }
     }
+
+    public void fetchChest() {
+        ChestList = TheArmory.getChestArmorArrayList();
+        ChestNameArray = new String[ChestList.size()];
+        ChestDefArray = new double[ChestList.size()];
+        ChestEvaArray = new double[ChestList.size()];
+        for (int i = 0; i < ChestList.size(); i++) {
+            Armor selectedArmor = (Armor) ChestList.get(i);
+            ChestNameArray[i] = selectedArmor.getName();
+            ChestDefArray[i] = selectedArmor.getDef();
+            ChestEvaArray[i] = selectedArmor.getEva();
+        }
+    }
     
     public void showStat() {
         String str = "[Current Stat]\n"+"|Attack "+this.AP+"\n"+"|Defence "+this.DEF+"\n"+"|Evasion "+this.EVA+"\n";
         System.out.println(str);
+     //   System.out.println(test);
     }
         
     
