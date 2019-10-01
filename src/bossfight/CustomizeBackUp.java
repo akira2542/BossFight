@@ -71,8 +71,8 @@ else */
     }
     
     private boolean isValid(int min,int max,int checkNum) {
-        boolean minCheck = false;
-        boolean maxCheck = false;
+        boolean minCheck;
+        boolean maxCheck;
         if (armourIndex < min) minCheck = true;
         if (armourIndex > max) maxCheck = true;
         if (minCheck || maxCheck){

@@ -17,6 +17,12 @@ public class Armor {
     public String getName() {
         return ItemName;
     }
+    public double getDef() {
+        return ItemDef;
+    }
+    public double getEva() {
+        return ItemEva;
+    }
 
     @Override
 
