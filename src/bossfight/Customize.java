@@ -3,6 +3,7 @@ package bossfight;
 import java.util.Scanner;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class Customize {
     
@@ -10,6 +11,7 @@ public class Customize {
     double AP;
     double DEF;
     double EVA;
+    double critChance;
 
     
     Scanner scn;
@@ -24,7 +26,11 @@ public class Customize {
     String[] ChestNameArray;
     double[] ChestDefArray;
     double[] ChestEvaArray;
-    
+    //Weapon Array
+    List WeaponList;
+    String[] WeaponNameArray;
+    double[] WeaponAPArray;
+    double[] WeaponCritArray;
 
     String slot_Head;
     String slot_Chest;
@@ -34,14 +40,24 @@ public class Customize {
     public Customize() {
         scn = new Scanner(System.in);
         TheArmory = new Armory();
-        selectHeadArmor();
-        selectChestArmor();
+        selectAllArmor();
     }
 
-   // public void selectAllArmor() {
-   //     selectHeadArmor();
-   //     selectChestArmor();
-   // }
+    public static void pause(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {
+            System.err.format("IOException: %s%n", e);
+        }
+    }
+
+    public void selectAllArmor() {
+    selectHeadArmor();
+    pause(1000);
+    selectChestArmor();
+    pause(1000);
+    selectWeapon();
+    }
 
     private void selectHeadArmor() {
         //int maxValidIndex = 0;
@@ -93,6 +109,31 @@ public class Customize {
             showStat(); 
     }
 
+    private void selectWeapon() {
+        System.out.println("[Choose Your Weapon]");
+        fetchWeapon();
+        StringBuilder SelectWeaponOutput = new StringBuilder();
+        for (int i = 0; i<WeaponList.size() ; i++) {
+                int n = i;
+                n++;
+                SelectWeaponOutput.append("[").append(n).append("]");
+                SelectWeaponOutput.append(WeaponNameArray[i]);
+                SelectWeaponOutput.append("(AP:").append(WeaponAPArray[i]).append(" Crit Chance (%):").append(WeaponCritArray[i]).append(")\n");    
+        }
+        System.out.println(SelectWeaponOutput);
+        //User select HeadArmor;
+            int ItemIndex = scn.nextInt();
+            ItemIndex--;
+            //ValidCheck
+            if (!isIndexValid(ChestList.size(),0 , ItemIndex)){return;}
+            System.out.println("You Have Chosen "+ChestNameArray[ItemIndex]+"!");
+            AP += WeaponAPArray[ItemIndex];
+            critChance += WeaponCritArray[ItemIndex];      
+            //test++;
+            showStat(); 
+    }
+
+
     private boolean isIndexValid(int max,int min,int number) {
         if ( number <= max && number >= min) return true;
         System.out.println("INVALID INPUT, Number out of reach");
@@ -124,11 +165,30 @@ public class Customize {
             ChestEvaArray[i] = selectedArmor.getEva();
         }
     }
+
+    public void fetchWeapon() {
+        WeaponList = TheArmory.getWeaponArrayList();
+        WeaponNameArray = new String[WeaponList.size()];
+        WeaponAPArray = new double[WeaponList.size()];
+        WeaponCritArray = new double[WeaponList.size()];
+        for (int i = 0; i < WeaponList.size(); i++) {
+            Weapon selectedWeapon = (Weapon) WeaponList.get(i);
+            WeaponNameArray[i] = selectedWeapon.getName();
+            WeaponAPArray[i] = selectedWeapon.getAP();
+            WeaponCritArray[i] = selectedWeapon.getCrit();
+        }
+    }
     
     public void showStat() {
-        String str = "[Current Stat]\n"+"|Attack "+this.AP+"\n"+"|Defence "+this.DEF+"\n"+"|Evasion "+this.EVA+"\n";
-        System.out.println(str);
+        //String str = "[Current Stat]\n"+"|Attack "+this.AP+"\n"+"|Defence "+this.DEF+"\n"+"|Evasion "+this.EVA+"\n|CritChance "+critChance;
+        //System.out.println(str);
      //   System.out.println(test);
+        System.out.println("[Current Stat]");
+        System.out.println("|Attack "+this.AP);
+        System.out.println("|Crit Chance "+this.critChance);
+        System.out.println("|Defence "+this.DEF);
+        System.out.println("|Evasion "+this.EVA);
+        System.out.println("\n\n\n\n");
     }
         
     

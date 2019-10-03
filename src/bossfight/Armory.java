@@ -7,7 +7,7 @@ public class Armory {
     
     int genIDcount;
     String genID;
-    String[] armorArray;
+
 
     public static void main(String[] args) {
         Armory test1 = new Armory();
@@ -45,6 +45,17 @@ public class Armory {
         ArmorArrayList.add(BronzeShoulder);
         ArmorArrayList.add(LeatherJacket);
         return ArmorArrayList;
+    }
+
+    public List getWeaponArrayList() {
+        Weapon LongSword = new Weapon(genID(), "Long Sword", 10, 3);
+        Weapon Mace = new Weapon(genID(), "Mace", 15, 1);
+        Weapon Bow = new Weapon(genID(), "Bow", 5, 1);
+        List WeaponArrayList = new ArrayList();
+        WeaponArrayList.add(LongSword);
+        WeaponArrayList.add(Mace);
+        WeaponArrayList.add(Bow);
+        return WeaponArrayList;
     }
 
 
